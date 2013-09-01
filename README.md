@@ -145,7 +145,7 @@ The `applicationLog` method is synchronous and can take while, so there is also 
 
     [UALogger getApplicationLog:^(NSArray *logs){
         for (NSString *log in logs) {
-            // Do something awesome");
+            // Do something awesome"
         }
     }];
 
