@@ -1,0 +1,14 @@
+PODS:
+  - UALogger (0.1)
+
+DEPENDENCIES:
+  - UALogger (from `../`)
+
+EXTERNAL SOURCES:
+  UALogger:
+    :path: ../
+
+SPEC CHECKSUMS:
+  UALogger: 9afbbfcb5eb0b47c5d421936c3f1fc4fc19548e4
+
+COCOAPODS: 0.23.0

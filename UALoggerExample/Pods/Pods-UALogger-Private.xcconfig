@@ -1,0 +1,5 @@
+#include "Pods-UALogger.xcconfig"
+GCC_PREPROCESSOR_DEFINITIONS = COCOAPODS=1
+HEADER_SEARCH_PATHS = "${PODS_ROOT}/BuildHeaders" "${PODS_ROOT}/BuildHeaders/UALogger" "${PODS_ROOT}/Headers" "${PODS_ROOT}/Headers/UALogger"
+OTHER_LDFLAGS = -ObjC
+PODS_ROOT = ${SRCROOT}
