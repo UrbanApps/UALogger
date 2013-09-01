@@ -3,7 +3,7 @@
 UALogger is a logging tool for iOS and Mac apps. It allows you to customize the log format, customize when to log to the console, and allows collection of the entire recent console log for your application. It includes the `UALogger` class and class methods, and a few handy macros.
 
 
----
+
 ### Installation
 
 
@@ -15,30 +15,33 @@ Then, simply place this line in your `prefix.pch` file to access the logger from
     
 
 
----
+
 ### Usage
 
 ##### Macros
 
 `UALogPlain` logs to the console just like NSLog.
     
-    EX: UALogPlain logs to the console just like NSLog.    
+    UALogPlain(@"Foobar");
+    -> Foobar    
     
 `UALogBasic` logs as well, but also logs the file name and line number.
 
-    EX: <UAViewController.m:27> UALogBasic logs as well...
+    UALogBasic(@"Foobar");    
+    -> <UAViewController.m:27> Foobar
     
 `UALogFull` logs the calling object (self), the file name, the line number and the method name.
 
-    EX: <0xb26b730 UAViewController.m:28 (viewDidLoad)> UALogFull logs the...
+    UALogFull(@"Foobar");
+    -> <0xb26b730 UAViewController.m:28 (viewDidLoad)> Foobar
 
 
-`UALog` is a short synonym for UALogPlain.
+`UALog` is shorthand for `UALogPlain`.
 
 One easy way to use `UALogger` is to do a project-wide find and replace for `NSLog`, and change it to `UALog`.
 
     UALog(@"This used to be an NSLog()");
-    
+    -> This used to be an NSLog()
 	
 
 #### Variables
@@ -69,12 +72,18 @@ Just like NSLog, you can pass in multiple variables too:
 	 
 `UALogger` will work alongside of `NSLog`, however, if you setup a Preprocessor Macro called `UALOGGER_SWIZZLE_NSLOG`, you can use UALogger without changing any of your code.
 
-	NSLog(@" - This NSLog call is actually routing through UALogger.");
+	
+	NSLog(@"<0xb26b730 UAViewController.m:28 (viewDidLoad)> This NSLog call is actually routing through UALogger.");
 
 	
-UALog is setup by default to call UALogPlain, but you can change that by adding this to your code:
+`UALog` is setup by default to call `UALogPlain`, but you can change that by adding this to your code:
 	
 	#undef UALog;
+	#define UALog( s, ... ) UALogBasic( s, ##__VA_ARGS__ );
+	
+or 
+
+    #undef UALog;
 	#define UALog( s, ... ) UALogFull( s, ##__VA_ARGS__ );
 	
 
@@ -83,9 +92,9 @@ UALog is setup by default to call UALogPlain, but you can change that by adding 
 Even though it makes life easier, you don't _have_ to use any of the `UALogger` macros to use `UALogger`. You can log anything with a simple call:
 
 	[UALogger log:@"I am logging now: %@", [NSDate date]];
-	
+		
 
-You can change the format of the `UALogPlain`, `UALogBasic` and `UALogFull` calls:
+You can customize the format of the `UALogPlain`, `UALogBasic` and `UALogFull` calls simply by changing the format string at runtime:
 
     [UALogger setFormat:@"UALogger logged: %@" forVerbosity:UALoggerVerbosityPlain];
 
@@ -141,6 +150,8 @@ The `applicationLog` method is synchronous and can take while, so there is also 
     }];
 
 
----
+### Example Project
+Check out the example project to see how to use the app, how to setup a toggle switch to turn on/off logging in the wild, and how to attach the application log to an email.
+
 ### Bugs / Pull Requests
 Let me know if you see ways to improve `UALogger` or see something wrong with it. I am happy to pull in pull requests that have clean code, and that is useful for most people. If you want to thanks me for publishing it, you can [buy one of my apps](http://itunes.com/apps/urbanapps?at=11l7j9&ct=github) :)
