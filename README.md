@@ -2,7 +2,7 @@
 
 UALogger is a simple and lightweight logging tool for iOS and Mac apps. It allows you to customize the log format, customize when to log to the console, and allows collection of the entire recent console log for your application. It includes the `UALogger` class and class methods, and a few handy macros.
 
-### Why UALogger?
+## Why UALogger?
 
 ##### Get Context
 
