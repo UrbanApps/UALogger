@@ -107,7 +107,7 @@ Note that logging this way does not prepend any of the additional information. T
 If you just want to change the way the log looks, you can customize the format of the `UALogPlain`, `UALogBasic` and `UALogFull` calls simply by changing the format string at runtime:
 
     [UALogger setFormat:@"Foobar! %@" forVerbosity:UALoggerVerbosityPlain];
-    UALogBasic(@"Barfoo%@?", @"d");
+    UALogPlain(@"Barfoo%@?", @"d");
     => Foobar! Barfood?
 
 Then all subsequent log calls for that verbosity will use that format. Take a look at the `setupDefaultFormats` method for more info on the default formats and what variables they expect in what order. If you want to reset the format, call
@@ -196,4 +196,4 @@ Screenshots are cool. Screenshots of log consoles are not cool. Pictures of lumb
 
 
 ## Bugs / Pull Requests
-Let me know if you see ways to improve `UALogger` or see something wrong with it. I am happy to pull in pull requests that have clean code, and that is useful for most people. If you want to thanks me for publishing it, you can [buy one of my apps](http://itunes.com/apps/urbanapps?at=11l7j9&ct=github) :)
+Let us know if you see ways to improve `UALogger` or see something wrong with it. We are happy to pull in pull requests that have clean code, and have features that are useful for most people. If you want to thank us for open-sourcing UALogger, you can [buy one of our apps](http://itunes.com/apps/urbanapps?at=11l7j9&ct=github) :)
