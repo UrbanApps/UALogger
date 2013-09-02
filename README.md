@@ -48,7 +48,7 @@ Then, simply place this line in your `prefix.pch` file to access the logger from
 
 ##### Macros
 
-`UALogBasic` logs as well, but also logs the file name and line number.
+`UALogBasic` logs just like `NSLog`, but also logs the file name and line number.
 
     UALogBasic(@"Foobar");
     => <UAViewController.m:27> Foobar
@@ -58,7 +58,7 @@ Then, simply place this line in your `prefix.pch` file to access the logger from
     UALogFull(@"Foobar");
     => <0xb26b730 UAViewController.m:28 (viewDidLoad)> Foobar
 
-`UALogPlain` logs to the console just like NSLog, with no additional information.
+`UALogPlain` logs to the console exactly like NSLog, with no additional information.
 
     UALogPlain(@"Foobar");
     => Foobar
