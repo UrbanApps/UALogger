@@ -23,17 +23,17 @@ Then, simply place this line in your `prefix.pch` file to access the logger from
 `UALogPlain` logs to the console just like NSLog.
 
     UALogPlain(@"Foobar");
-    -> Foobar
+    => Foobar
 
 `UALogBasic` logs as well, but also logs the file name and line number.
 
     UALogBasic(@"Foobar");
-    -> <UAViewController.m:27> Foobar
+    => <UAViewController.m:27> Foobar
 
 `UALogFull` logs the calling object (self), the file name, the line number and the method name.
 
     UALogFull(@"Foobar");
-    -> <0xb26b730 UAViewController.m:28 (viewDidLoad)> Foobar
+    => <0xb26b730 UAViewController.m:28 (viewDidLoad)> Foobar
 
 
 `UALog` is shorthand for `UALogPlain`.
@@ -41,7 +41,26 @@ Then, simply place this line in your `prefix.pch` file to access the logger from
 One easy way to use `UALogger` is to do a project-wide find and replace for `NSLog`, and change it to `UALog`.
 
     UALog(@"This used to be an NSLog()");
-    -> This used to be an NSLog()
+    => This used to be an NSLog()
+
+
+`UALog` is setup by default to call `UALogPlain`, but you can change that by adding this to your code:
+
+	#undef UALog;
+	#define UALog( s, ... ) UALogBasic( s, ##__VA_ARGS__ );
+
+or
+
+    #undef UALog;
+	#define UALog( s, ... ) UALogFull( s, ##__VA_ARGS__ );
+
+
+`UALogger` will work seamlessly alongside of `NSLog`, however, if you set a Preprocessor Macro called `UALOGGER_SWIZZLE_NSLOG`, you can use UALogger without changing any of your code.
+
+	
+	NSLog(@"This NSLog call is actually routing through UALogger.");
+	=> <0xb26b730 UAViewController.m:28 (viewDidLoad)> This NSLog call is actually routing through UALogger.
+
 
 
 #### Variables
@@ -69,22 +88,6 @@ Just like NSLog, you can pass in multiple variables too:
 	Just like NSLog, you can pass in multiple variables too:
 	 - 1.571 * 0.785 = 1.233701
 	 - One, two, 3
-
-`UALogger` will work alongside of `NSLog`, however, if you setup a Preprocessor Macro called `UALOGGER_SWIZZLE_NSLOG`, you can use UALogger without changing any of your code.
-
-
-	NSLog(@"<0xb26b730 UAViewController.m:28 (viewDidLoad)> This NSLog call is actually routing through UALogger.");
-
-
-`UALog` is setup by default to call `UALogPlain`, but you can change that by adding this to your code:
-
-	#undef UALog;
-	#define UALog( s, ... ) UALogBasic( s, ##__VA_ARGS__ );
-
-or
-
-    #undef UALog;
-	#define UALog( s, ... ) UALogFull( s, ##__VA_ARGS__ );
 
 
 #### UALogger Class Methods
