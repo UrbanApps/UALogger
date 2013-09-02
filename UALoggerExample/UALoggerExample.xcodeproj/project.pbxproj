@@ -15,7 +15,6 @@
 		E6AD51F017D39B630041C981 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E6AD51EF17D39B630041C981 /* main.m */; };
 		E6AD51F417D39B630041C981 /* UAAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E6AD51F317D39B630041C981 /* UAAppDelegate.m */; };
 		E6AD51F717D39B630041C981 /* Main_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E6AD51F517D39B630041C981 /* Main_iPhone.storyboard */; };
-		E6AD51FA17D39B630041C981 /* Main_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E6AD51F817D39B630041C981 /* Main_iPad.storyboard */; };
 		E6AD51FD17D39B630041C981 /* UAViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E6AD51FC17D39B630041C981 /* UAViewController.m */; };
 		E6AD51FF17D39B630041C981 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E6AD51FE17D39B630041C981 /* Images.xcassets */; };
 		E6AD520617D39B630041C981 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E6AD520517D39B630041C981 /* XCTest.framework */; };
@@ -38,6 +37,7 @@
 /* Begin PBXFileReference section */
 		522EB008986A4B4182DEC89E /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = SOURCE_ROOT; };
 		9DD16CD5040F46BAAA4FD871 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		E69A694E17D4BBA700C3EDBC /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/Main_iPhone.storyboard; sourceTree = "<group>"; };
 		E6AD51E017D39B630041C981 /* UALoggerExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UALoggerExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E6AD51E317D39B630041C981 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		E6AD51E517D39B630041C981 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -48,8 +48,6 @@
 		E6AD51F117D39B630041C981 /* UALoggerExample-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UALoggerExample-Prefix.pch"; sourceTree = "<group>"; };
 		E6AD51F217D39B630041C981 /* UAAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UAAppDelegate.h; sourceTree = "<group>"; };
 		E6AD51F317D39B630041C981 /* UAAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UAAppDelegate.m; sourceTree = "<group>"; };
-		E6AD51F617D39B630041C981 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main_iPhone.storyboard; sourceTree = "<group>"; };
-		E6AD51F917D39B630041C981 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main_iPad.storyboard; sourceTree = "<group>"; };
 		E6AD51FB17D39B630041C981 /* UAViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UAViewController.h; sourceTree = "<group>"; };
 		E6AD51FC17D39B630041C981 /* UAViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UAViewController.m; sourceTree = "<group>"; };
 		E6AD51FE17D39B630041C981 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
@@ -123,7 +121,6 @@
 				E6AD51F217D39B630041C981 /* UAAppDelegate.h */,
 				E6AD51F317D39B630041C981 /* UAAppDelegate.m */,
 				E6AD51F517D39B630041C981 /* Main_iPhone.storyboard */,
-				E6AD51F817D39B630041C981 /* Main_iPad.storyboard */,
 				E6AD51FB17D39B630041C981 /* UAViewController.h */,
 				E6AD51FC17D39B630041C981 /* UAViewController.m */,
 				E6AD51FE17D39B630041C981 /* Images.xcassets */,
@@ -240,7 +237,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E6AD51FA17D39B630041C981 /* Main_iPad.storyboard in Resources */,
 				E6AD51FF17D39B630041C981 /* Images.xcassets in Resources */,
 				E6AD51F717D39B630041C981 /* Main_iPhone.storyboard in Resources */,
 				E6AD51EE17D39B630041C981 /* InfoPlist.strings in Resources */,
@@ -331,17 +327,9 @@
 		E6AD51F517D39B630041C981 /* Main_iPhone.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				E6AD51F617D39B630041C981 /* Base */,
+				E69A694E17D4BBA700C3EDBC /* en */,
 			);
 			name = Main_iPhone.storyboard;
-			sourceTree = "<group>";
-		};
-		E6AD51F817D39B630041C981 /* Main_iPad.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				E6AD51F917D39B630041C981 /* Base */,
-			);
-			name = Main_iPad.storyboard;
 			sourceTree = "<group>";
 		};
 		E6AD520E17D39B630041C981 /* InfoPlist.strings */ = {
@@ -439,7 +427,9 @@
 					UALOGGER_SWIZZLE_NSLOG,
 				);
 				INFOPLIST_FILE = "UALoggerExample/UALoggerExample-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -453,7 +443,9 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "UALoggerExample/UALoggerExample-Prefix.pch";
 				INFOPLIST_FILE = "UALoggerExample/UALoggerExample-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

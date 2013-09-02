@@ -2,10 +2,37 @@
 
 UALogger is a simple and lightweight logging tool for iOS and Mac apps. It allows you to customize the log format, customize when to log to the console, and allows collection of the entire recent console log for your application. It includes the `UALogger` class and class methods, and a few handy macros.
 
+### Why UALogger?
 
+##### Get Context
+
+`NSLog` is great, but it has room for improvement. You probably have some code in your project that says something like the following that ends up loggings something generic and unhelpful like
+ 
+    NSLog(@"Error: %@", [error localizedDescription]);
+    => Error: There was a problem loading resource.
+   
+UALogger steps in to help to help. By simply adding the file and line number to the output, you can put your generic log messages into context, allowing them to be a much more powerful method of feedback.
+
+    UALog(@"Error: %@", [error localizedDescription]);
+    => <UAViewController.m:27> Error: There was a problem loading resource.
+
+##### Speed up your Production App
+
+Calls to `NSLog` are expensive. Each write has to append a line to a file on the OS, meaning that the file has to be located, opened, appended, saved, and all synchronously. A `NSLog` call here and there won't grind your app to a halt, but if you log a lot (like you should), it can have a measurable performance hit.
+
+So what do you do to prevent logging in production? Do you grep for `NSLog` entries and comment them out before launch? __No__. You install UALogger and don't worry about it. UALogger won't log to the console on production builds unless you override it to do so.
+
+##### Protect Sensitive Information
+
+The console log that `NSLog` writes to can be read by any app, or anyone who knows how to dig around on their device. This may not be a problem, but what if you log user details such as email or password? What if you log URL's for your private API, or details on your backend service? When you use UALogger, you won't print these logs to the system console in production, protecting yourself and your users.
+
+##### Give Better Support
+
+UALogger lets you get all of the logs written by your app to the system log. In our flagship app [Ambiance](http://ambianceapp.com), we use this to help debug tough customer issues. If a customer contacts us with an issue that we can't figure out, we ask them to turn on logging for Ambiance via a switch in the App settings, try to reproduce the problem, then send us the log via an in-app button.
 
 ### Installation
 
+Installation is made simple with [Cocoapods](http://cocoapods.org/). If you want to do it the old fashioned way, you know how.
 
     pod 'UALogger'
 
@@ -20,11 +47,6 @@ Then, simply place this line in your `prefix.pch` file to access the logger from
 
 ##### Macros
 
-`UALogPlain` logs to the console just like NSLog.
-
-    UALogPlain(@"Foobar");
-    => Foobar
-
 `UALogBasic` logs as well, but also logs the file name and line number.
 
     UALogBasic(@"Foobar");
@@ -35,22 +57,30 @@ Then, simply place this line in your `prefix.pch` file to access the logger from
     UALogFull(@"Foobar");
     => <0xb26b730 UAViewController.m:28 (viewDidLoad)> Foobar
 
+`UALogPlain` logs to the console just like NSLog, with no additional information.
 
-`UALog` is shorthand for `UALogPlain`.
+    UALogPlain(@"Foobar");
+    => Foobar
+
+`UALog` is shorthand for `UALogBasic`.
 
 One easy way to use `UALogger` is to do a project-wide find and replace for `NSLog`, and change it to `UALog`.
 
     UALog(@"This used to be an NSLog()");
-    => This used to be an NSLog()
+    => <UAViewController.m:27> This used to be an NSLog()
 
 
-`UALog` is setup by default to call `UALogPlain`, but you can change that by adding this to your code:
+#### Customization
 
+`UALog` is setup by default to call `UALogBasic`, but you can change that by adding this to your code immediately after the `#import <UALogger.h>` in your `prefix.pch` file:
+
+	#import <UALogger.h>
 	#undef UALog;
-	#define UALog( s, ... ) UALogBasic( s, ##__VA_ARGS__ );
+	#define UALog( s, ... ) UALogPlain( s, ##__VA_ARGS__ );
 
 or
-
+	
+    #import <UALogger.h>
     #undef UALog;
 	#define UALog( s, ... ) UALogFull( s, ##__VA_ARGS__ );
 
@@ -61,33 +91,7 @@ or
 	NSLog(@"This NSLog call is actually routing through UALogger.");
 	=> <0xb26b730 UAViewController.m:28 (viewDidLoad)> This NSLog call is actually routing through UALogger.
 
-
-
-#### Variables
-
-Because `UALog` works just like `NSLog`, you can pass in variables:
-
-    UALog(@"Because UALog works just like NSLog, you can %@ in %@:", @"pass", @"variables");
-	UALog(@" - %@", self);
-	UALog(@" - %d", arc4random() % 99);
-	UALog(@" - %.6f", M_PI);
-	UALog(@" - %@.", [NSDate date]);
-
-	Because UALog works just like NSLog, you can pass in variables:
-	 - <UAViewController: 0xb26b730>
-	 - 67
-	 - 3.141593
-	 - 2013-09-01 20:23:03 +0000.
-
-Just like NSLog, you can pass in multiple variables too:
-
-	UALog(@"Just like NSLog, you can pass in multiple variables too:");
-	UALog(@" - %.3f * %.3f = %.6f", M_PI_2, M_PI_4, M_PI_2 * M_PI_4);
-	UALog(@" - One, %@, %d", @"two", 3);
-
-	Just like NSLog, you can pass in multiple variables too:
-	 - 1.571 * 0.785 = 1.233701
-	 - One, two, 3
+Only calls made to `NSLog` from files in your app that have imported `UALogger.h` will route through UALogger. If you imported UALogger in your `prefix.pch`, then that means all of them.
 
 
 #### UALogger Class Methods
@@ -102,14 +106,13 @@ You can customize the format of the `UALogPlain`, `UALogBasic` and `UALogFull` c
     [UALogger setFormat:@"UALogger logged: %@" forVerbosity:UALoggerVerbosityPlain];
 
 
-Then all subsequent log calls for that verbosity will use that format. Take a look at the `setupDefaultFormats` for more info on the defaults. If you want to reset the format, call
+Then all subsequent log calls for that verbosity will use that format. Take a look at the `setupDefaultFormats` method for more info on the default formats and what they expect. If you want to reset the format, call
 
 	[UALogger resetDefaultLogFormats];
 
 #### Production Logging
 
-
-By default UALogger will log in Debug environments and not in Production. It determines this by the presence of the Preprocessor Macro `DEBUG`, which is added to wevery Xcode project by default. The rules it uses to determine if it should log to the console are:
+By default UALogger will log in Debug environments and not in Production. It determines this by the presence of the Preprocessor Macro `DEBUG`, which is added to every Xcode project by default. The rules it uses to determine if it __should log__ to the console are:
 
 
 - It __is not__ a production build and `shouldLogInDebug` is true __OR__
@@ -117,24 +120,45 @@ By default UALogger will log in Debug environments and not in Production. It det
 - The NSUserDefaults key for logging is true.
 
 
-You can query these values and set them at runtime:
+You can query these values and set some of them at runtime.
 
-    + (BOOL)isProduction;
-    + (BOOL)shouldLogInProduction;
-    + (BOOL)shouldLogInDebug;
-    + (void)setShouldLogInProduction:(BOOL)shouldLogInProduction;
-    + (void)setShouldLogInDebug:(BOOL)shouldLogInDebug;
-    + (NSString *)userDefaultsKey;
-    + (void)setUserDefaultsKey:(NSString *)userDefaultsKey;
+`[+ isProduction]` returns true if the `DEBUG` macro is __NOT__ found on compilation.
 
-And you can tell if logging is enabled by calling:
+    BOOL isProduction = [UALogger isProduction];
+    
+`[+ shouldLogInProduction]` is set to `NO` by default, but can be set otherwise:
 
-    + (BOOL)loggingEnabled;
+    BOOL shouldLogInProduction = [UALogger shouldLogInProduction];
+    if (shouldLogInProduction)
+        [UALogger setShouldLogInProduction:NO];
+
+`[+ shouldLogInDebug]` is set to `YES` by default, but can be set otherwise:
+
+    BOOL shouldLogInDebug = [UALogger shouldLogInDebug];
+    if (!shouldLogInDebug)
+        [UALogger setShouldLogInDebug:YES];
+
+`[+ userDefaultsKey]` is the key used to look for manual log overrides. The most common usage of this is to hook up a toggle switch in your App's settings that turns on logging. By default, this key is set as `UALogger_LoggingEnabled`, but can be set to anything you want that returns a `BOOL`.
+
+    NSString *userDefaultsKey = [UALogger userDefaultsKey];
+    if ([userDefaultsKey isEqualToString:UALogger_LoggingEnabled])
+        [UALogger setUserDefaultsKey:@"CustomizedUserDefaultsKey"];
+
+An example of when you may want to change this value is if you want to log when a certain feature is enabled — say you have a fancy, but beta, feature X;
+	
+	BOOL featureXIsEnabled = [[NSUserDefaults standardDefaults] boolForKey:@"featureXIsEnabled"];
+    [UALogger setUserDefaultsKey:@"featureXIsEnabled"];
+
+Setting the logger to use the same key means that when the feature is on, logging will happen.	
+
+`[+ logginEnabled]` is the method UALogger uses to determine whether or not it should log a line. It uses the above algorithm and methods to return a simple `BOOL`.
+
+    BOOL loggingEnabled = [UALogger loggingEnabled];
 
 
-#### Log Collecting
+#### Recent Console Log Collecting
 
-One of the more useful features of `UALogger` is to grab the recent log entries from the console.To do this, simply call:
+One of the more useful features of `UALogger` is to grab the recent log entries from the console. To do this, simply call:
 
     [UALogger applicationLog];
 
@@ -152,12 +176,20 @@ The `applicationLog` method is synchronous and can take while, so there is also 
         }
     }];
 
+Remember that it only finds entries that were written to the console log, so if you don't have logging enabled, it will not return any lines. It is able to check the entire console log, but is not able to look at previous logs once the file's have been turned over. For normal usage you can usually grab a day or so of log entries.
+
 
 ### Example Project
-Check out the example project to see how to use the app, how to setup a toggle switch to turn on/off logging in the wild, and how to attach the application log to an email.
+Check out the example project to see how to use UALogger, how to setup a toggle switch to turn on/off logging in the wild, and how to attach the application log to an email.
+
+
+### What's With the Lumberjack?
+Screenshots are cool. Screenshots of log consoles are not cool. Pictures of lumberjacks are cool.
+
 
 ### What Does UA stand for?
-[Urban Apps](http://urbanapps.com). We make cool stuff. Check us out.
+[Urban Apps](http://urbanapps.com). We make neat stuff. Check us out.
+
 
 ### Bugs / Pull Requests
 Let me know if you see ways to improve `UALogger` or see something wrong with it. I am happy to pull in pull requests that have clean code, and that is useful for most people. If you want to thanks me for publishing it, you can [buy one of my apps](http://itunes.com/apps/urbanapps?at=11l7j9&ct=github) :)

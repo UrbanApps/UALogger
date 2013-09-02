@@ -9,17 +9,18 @@
 
 #import <asl.h>
 
-@implementation UALogger
 
+// We use static class vars because UALogger only has class methods
 static BOOL		UA__shouldLogInProduction = NO;
 static BOOL		UA__shouldLogInDebug	  = YES;
-
 static NSString *UA__verbosityFormatPlain = nil;
 static NSString *UA__verbosityFormatBasic = nil;
 static NSString *UA__verbosityFormatFull = nil;
-
 static NSString *UA__bundleName = nil;
 static NSString *UA__userDefaultsKey = nil;
+
+
+@implementation UALogger
 
 
 #pragma mark - Setup
@@ -175,7 +176,7 @@ static NSString *UA__userDefaultsKey = nil;
 
 + (NSString *)userDefaultsKey {
 	if (!UA__userDefaultsKey)
-		UA__userDefaultsKey = @"UALogger_LoggingEnabled";
+		UA__userDefaultsKey = UALogger_LoggingEnabled;
 	
 	return UA__userDefaultsKey;
 }

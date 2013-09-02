@@ -40,7 +40,7 @@ typedef enum {
 							 ]
 
 
-#define UALog( s, ... ) UALogPlain( s, ##__VA_ARGS__ )
+#define UALog( s, ... ) UALogBasic( s, ##__VA_ARGS__ )
 
 #ifdef UALOGGER_SWIZZLE_NSLOG
 	#define NSLog( s, ... )		UALog( s, ##__VA_ARGS__ )
@@ -49,15 +49,17 @@ typedef enum {
 // This is just convenience
 #define NSStringFromBool(b) (b ? @"YES" : @"NO")
 
+static NSString * const UALogger_LoggingEnabled = @"UALogger_LoggingEnabled";	// This is the default NSUserDefaults key
+
 @interface UALogger : NSObject
+
 
 + (NSString *)formatForVerbosity:(UALoggerVerbosity)verbosity;	// Returns the format string for the verbosity. See [+ initialize] for defaults
 + (void)setFormat:(NSString *)format							// Overrides the default formats for verbosities.
 	 forVerbosity:(UALoggerVerbosity)verbosity;
 + (void)resetDefaultLogFormats;									// Resets the formats back to UALogger defaults
 
-+ (NSString *)bundleName;										// Default is CFBundleName
-+ (void)setBundleName:(NSString *)bundleName;
+
 
 + (BOOL)isProduction;											// Returns YES when DEBUG is not present in the Preprocessor Macros
 + (BOOL)shouldLogInProduction;									// Default is NO.
@@ -68,12 +70,19 @@ typedef enum {
 + (void)setUserDefaultsKey:(NSString *)userDefaultsKey;
 + (BOOL)loggingEnabled;											// returns true if (not production and shouldLogInDebug) OR (production build and shouldLogInProduction) or (userDefaultsKey == YES)
 
-+ (void)getApplicationLog:(void (^)(NSArray *logs))onComplete;	// Gets the recent log entries written to the console on a background thread, then calls the completion block
-+ (NSString *)applicationLog;									// Gets the recent log entries written to the console, may take a long time.
+
 
 + (void)log:(NSString *)format, ...;							// Logs a format, and variables for the format.
 
 + (void)logWithVerbosity:(UALoggerVerbosity)verbosity			// Logs a preset format based on the vspecified verbosity, and variables for the format.
 			  formatArgs:(NSArray *)args;
+
+
+
++ (NSString *)bundleName;										// Default is CFBundleName
++ (void)setBundleName:(NSString *)bundleName;
++ (void)getApplicationLog:(void (^)(NSArray *logs))onComplete;	// Gets the recent log entries written to the console on a background thread, then calls the completion block
++ (NSString *)applicationLog;									// Gets the recent log entries written to the console, may take a long time.
+
 
 @end

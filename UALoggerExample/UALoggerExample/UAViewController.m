@@ -8,7 +8,6 @@
 
 #import "UAViewController.h"
 #import <MessageUI/MessageUI.h>
-#import <UALogger.h>
 
 @interface UAViewController () <MFMailComposeViewControllerDelegate>
 
@@ -46,10 +45,12 @@
 	UALog(@"However, if you setup a Preprocessor Macro called UALOGGER_SWIZZLE_NSLOG, you can use UALogger without changing any of your code.");
 #ifdef UALOGGER_SWIZZLE_NSLOG
 	NSLog(@" - This NSLog call is actually routing through UALogger.");
+#else
+	NSLog(@" - This NSLog call is NOT routing through UALogger.");
 #endif
 	
 	UALog(@"\n");
-	UALog(@"UALog is setup by default to call UALogPlain, but you can change that by adding this to your code:");
+	UALog(@"UALog is setup by default to call UALogBasic, but you can change that by adding this to your code:");
 	UALog(@"  #undef UALog");
 	UALog(@"  #define UALog( s, ... ) UALogFull( s, ##__VA_ARGS__ )");
 	
@@ -101,7 +102,7 @@
 	
 	[[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationNone];
 
-	self.textView = [[UITextView alloc] initWithFrame:CGRectMake(10, 10, CGRectGetWidth(self.view.bounds) - 20, CGRectGetHeight(self.view.bounds) - 114)];
+	self.textView = [[UITextView alloc] initWithFrame:CGRectMake(10, 10, CGRectGetWidth(self.view.bounds) - 20, CGRectGetHeight(self.view.bounds) - 104)];
 	[self.textView setEditable:NO];
 	[self.textView setTextColor:[UIColor whiteColor]];
 	[self.textView setBackgroundColor:[UIColor blackColor]];
@@ -130,16 +131,20 @@
 	[label setText:@"Log to Console"];
 	[self.view addSubview:label];
 	
+	[self.view bringSubviewToFront:switchy];
+	
 	// Button as an example of a log collection.
 	UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
 	[button setFrame:CGRectMake(10,
 								CGRectGetMaxY(label.frame) + 10,
-								CGRectGetWidth(self.textView.bounds) - 20,
+								CGRectGetWidth(self.textView.bounds),
 								44)];
 	[button setTitle:@"Email Log" forState:UIControlStateNormal];
 	[button addTarget:self action:@selector(emailLog:) forControlEvents:UIControlEventTouchUpInside];
 	[self.view addSubview:button];
 	[button setEnabled:NO];
+	
+	
 	
 	[UALogger getApplicationLog:^(NSArray *logs){
 		dispatch_async(dispatch_get_main_queue(), ^{
