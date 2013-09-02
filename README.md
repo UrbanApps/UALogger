@@ -33,7 +33,7 @@ UALogger lets you get all of the logs written by your app to the system log. In 
 
 ## Installation
 
-Installation is made simple with [Cocoapods](http://cocoapods.org/)  (coming soon, pull request pending). If you want to do it the old fashioned way, you know how.
+Installation is made simple with [Cocoapods](http://cocoapods.org/)  (coming soon, [pull request](https://github.com/CocoaPods/Specs/pull/3866) pending). If you want to do it the old fashioned way, you know how.
 
     pod 'UALogger'
 
