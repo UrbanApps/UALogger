@@ -157,7 +157,7 @@ The `applicationLog` method is synchronous and can take while, so there is also 
 Check out the example project to see how to use the app, how to setup a toggle switch to turn on/off logging in the wild, and how to attach the application log to an email.
 
 ### What Does UA stand for?
-My company is [Urban Apps](http://urbanapps.com) and we make cool stuff. Check us out.
+[Urban Apps](http://urbanapps.com). We make cool stuff. Check us out.
 
 ### Bugs / Pull Requests
 Let me know if you see ways to improve `UALogger` or see something wrong with it. I am happy to pull in pull requests that have clean code, and that is useful for most people. If you want to thanks me for publishing it, you can [buy one of my apps](http://itunes.com/apps/urbanapps?at=11l7j9&ct=github) :)
