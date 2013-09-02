@@ -33,9 +33,9 @@ UALogger lets you get all of the logs written by your app to the system log. In 
 
 ## Installation
 
-Installation is made simple with [Cocoapods](http://cocoapods.org/)  (coming soon, [pull request](https://github.com/CocoaPods/Specs/pull/3866) pending). If you want to do it the old fashioned way, just add `UALogger.h` and `UALogger.m` to your project.
+Installation is made simple with [Cocoapods](http://cocoapods.org/). If you want to do it the old fashioned way, just add `UALogger.h` and `UALogger.m` to your project.
 
-    pod 'UALogger'
+    pod 'UALogger', `~> 0.2.2'
 
 Then, simply place this line in your `prefix.pch` file to access the logger from all of your source files.
 
