@@ -16,5 +16,4 @@ profile
 *.moved-aside
 DerivedData
 .idea/
-Artwork
-.gitignore # Ignore the hand that feeds!
+Artwork/
