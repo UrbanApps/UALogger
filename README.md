@@ -106,7 +106,9 @@ Note that logging this way does not prepend any of the additional information. T
 
 If you just want to change the way the log looks, you can customize the format of the `UALogPlain`, `UALogBasic` and `UALogFull` calls simply by changing the format string at runtime:
 
-    [UALogger setFormat:@"UALogger logged: %@" forVerbosity:UALoggerVerbosityPlain];
+    [UALogger setFormat:@"Foobar! %@" forVerbosity:UALoggerVerbosityPlain];
+    UALogBasic(@"Barfoo%@?", @"d");
+    => Foobar! Barfood?
 
 Then all subsequent log calls for that verbosity will use that format. Take a look at the `setupDefaultFormats` method for more info on the default formats and what variables they expect in what order. If you want to reset the format, call
 
