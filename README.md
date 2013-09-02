@@ -99,14 +99,16 @@ Only calls made to `NSLog` from files in your app that have imported `UALogger.h
 Even though it makes life easier, you don't _have_ to use any of the `UALogger` macros to use `UALogger`. You can log anything with a simple call:
 
 	[UALogger log:@"I am logging now: %@", [NSDate date]];
+	=> I am logging now: 2013-09-02 12:42:31 +0000
 
 
-You can customize the format of the `UALogPlain`, `UALogBasic` and `UALogFull` calls simply by changing the format string at runtime:
+Note that logging this way does not prepend any of the additional information. This is because there is no way to know the calling filename and log line, method name etc… from within the `UALogger` class. The macros do know this information though, and it is advised that you use them to maximize the benefit of UALogger.
+
+If you just want to change the way the log looks, you can customize the format of the `UALogPlain`, `UALogBasic` and `UALogFull` calls simply by changing the format string at runtime:
 
     [UALogger setFormat:@"UALogger logged: %@" forVerbosity:UALoggerVerbosityPlain];
 
-
-Then all subsequent log calls for that verbosity will use that format. Take a look at the `setupDefaultFormats` method for more info on the default formats and what they expect. If you want to reset the format, call
+Then all subsequent log calls for that verbosity will use that format. Take a look at the `setupDefaultFormats` method for more info on the default formats and what variables they expect in what order. If you want to reset the format, call
 
 	[UALogger resetDefaultLogFormats];
 
