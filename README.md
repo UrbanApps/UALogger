@@ -205,7 +205,11 @@ There are some ideas we have for future versions of UALogger. Feel free to fork/
 -  [Your idea](https://github.com/coneybeare/UALogger/issues).
 
 ## Bugs / Pull Requests
-Let us know if you see ways to improve `UALogger` or see something wrong with it. We are happy to pull in pull requests that have clean code, and have features that are useful for most people. If you want to thank us for open-sourcing UALogger, you can [buy one of our apps](http://itunes.com/apps/urbanapps?at=11l7j9&ct=github) :)
+Let us know if you see ways to improve `UALogger` or see something wrong with it. We are happy to pull in pull requests that have clean code, and have features that are useful for most people.
+
+## Feeling Generous?
+
+If you want to thank us for open-sourcing UALogger, you can [buy one of our apps](http://itunes.com/apps/urbanapps?at=11l7j9&ct=github) or even donate something small.
 
 <a href='http://www.pledgie.com/campaigns/21745'><img alt='Click here to lend your support to: Support UALogger Development and make a donation at www.pledgie.com !' src='http://www.pledgie.com/campaigns/21745.png?skin_name=chrome' border='0' /></a>
 
