@@ -30,7 +30,7 @@ The console log that `NSLog` writes to can be read by any app, or anyone who kno
 
 UALogger lets you get all of the logs written by your app to the system log. In our flagship app [Ambiance](http://ambianceapp.com), we use this to help debug tough customer issues. If a customer contacts us with an issue that we can't figure out, we ask them to turn on logging for Ambiance via a switch in the App settings, try to reproduce the problem, then send us the log via an in-app button.
 
-### Installation
+## Installation
 
 Installation is made simple with [Cocoapods](http://cocoapods.org/). If you want to do it the old fashioned way, you know how.
 
@@ -43,7 +43,7 @@ Then, simply place this line in your `prefix.pch` file to access the logger from
 
 
 
-### Usage
+## Usage
 
 ##### Macros
 
@@ -181,17 +181,17 @@ The `applicationLog` method is synchronous and can take while, so there is also 
 Remember that it only finds entries that were written to the console log, so if you don't have logging enabled, it will not return any lines. It is able to check the entire console log, but is not able to look at previous logs once the file's have been turned over. For normal usage you can usually grab a day or so of log entries.
 
 
-### Example Project
+## Example Project
 Check out the example project to see how to use UALogger, how to setup a toggle switch to turn on/off logging in the wild, and how to attach the application log to an email.
 
 
-### What's With the Lumberjack?
+## What's With the Lumberjack?
 Screenshots are cool. Screenshots of log consoles are not cool. Pictures of lumberjacks are cool.
 
 
-### What Does UA stand for?
+## What Does UA stand for?
 [Urban Apps](http://urbanapps.com). We make neat stuff. Check us out.
 
 
-### Bugs / Pull Requests
+## Bugs / Pull Requests
 Let me know if you see ways to improve `UALogger` or see something wrong with it. I am happy to pull in pull requests that have clean code, and that is useful for most people. If you want to thanks me for publishing it, you can [buy one of my apps](http://itunes.com/apps/urbanapps?at=11l7j9&ct=github) :)
