@@ -206,3 +206,7 @@ There are some ideas we have for future versions of UALogger. Feel free to fork/
 
 ## Bugs / Pull Requests
 Let us know if you see ways to improve `UALogger` or see something wrong with it. We are happy to pull in pull requests that have clean code, and have features that are useful for most people. If you want to thank us for open-sourcing UALogger, you can [buy one of our apps](http://itunes.com/apps/urbanapps?at=11l7j9&ct=github) :)
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/coneybeare/ualogger/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
