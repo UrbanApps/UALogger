@@ -156,7 +156,7 @@ An example of when you may want to change this value is if you want to log when 
 
 Setting the logger to use the same key means that when the feature is on, logging will happen.	
 
-`[+ logginEnabled]` is the method UALogger uses to determine whether or not it should log a line. It uses the above algorithm and methods to return a simple `BOOL`.
+`[+ loggingEnabled]` is the method UALogger uses to determine whether or not it should log a line. It uses the above algorithm and methods to return a simple `BOOL`.
 
     BOOL loggingEnabled = [UALogger loggingEnabled];
 
