@@ -21,7 +21,7 @@ UALogger steps in to help. By simply adding the file and line number (the basic 
 
 Calls to `NSLog` are expensive. Each write has to append a line to a file on the OS, meaning that the file has to be located, opened, appended, saved, and all synchronously. A `NSLog` call here and there won't grind your app to a halt, but if you log a lot (like you should), it can have a measurable performance hit.
 
-So what do you do to prevent logging in production? Do you grep for `NSLog` entries and comment them out before launch? __No__. You install UALogger and don't worry about it. UALogger won't log to the console on production builds unless you override it to do so. Furthermore, logging in production can be enabled/disabled at **runtime**, not compilation time like most other logging solutions.
+So what do you do to prevent logging in production? Do you grep for `NSLog` entries and comment them out before launch? __No__. You install UALogger and don't worry about it. UALogger won't log to the console on production builds unless you override it to do so. Furthermore, logging in production can be enabled/disabled at **runtime**, not compilation time.
 
 ##### Protect Sensitive Information
 
