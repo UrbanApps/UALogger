@@ -11,7 +11,7 @@ UALogger is a simple and lightweight logging tool for iOS and Mac apps. It allow
     NSLog(@"Error: %@", [error localizedDescription]);
     => Error: There was a problem loading resource.
    
-UALogger steps in to help to help. By simply adding the file and line number (the basic format) to the output, you can put your generic log messages into context, allowing them to be a much more powerful method of feedback.
+UALogger steps in to help. By simply adding the file and line number (the basic format) to the output, you can put your generic log messages into context, allowing them to be a much more powerful method of feedback.
 
     UALog(@"Error: %@", [error localizedDescription]);
     => <UAViewController.m:27> Error: There was a problem loading resource.
