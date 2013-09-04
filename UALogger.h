@@ -59,25 +59,22 @@ static NSString * const UALogger_LoggingEnabled = @"UALogger_LoggingEnabled";	//
 	 forVerbosity:(UALoggerVerbosity)verbosity;
 + (void)resetDefaultLogFormats;									// Resets the formats back to UALogger defaults
 
-
-
 + (BOOL)isProduction;											// Returns YES when DEBUG is not present in the Preprocessor Macros
 + (BOOL)shouldLogInProduction;									// Default is NO.
 + (BOOL)shouldLogInDebug;										// Default is YES.
++ (BOOL)userDefaultsOverride;									// Default is NO. Cached BOOL of the userDefaultsKey
 + (void)setShouldLogInProduction:(BOOL)shouldLogInProduction;
 + (void)setShouldLogInDebug:(BOOL)shouldLogInDebug;
++ (void)setUserDefaultsOverride:(BOOL)userDefaultsOverride;
++ (BOOL)loggingEnabled;											// returns true if (not production and shouldLogInDebug) OR (production build and shouldLogInProduction) or (userDefaultsOverride == YES)
+
 + (NSString *)userDefaultsKey;									// Default key is UALogger_LoggingEnabled
 + (void)setUserDefaultsKey:(NSString *)userDefaultsKey;
-+ (BOOL)loggingEnabled;											// returns true if (not production and shouldLogInDebug) OR (production build and shouldLogInProduction) or (userDefaultsKey == YES)
-
-
 
 + (void)log:(NSString *)format, ...;							// Logs a format, and variables for the format.
 
 + (void)logWithVerbosity:(UALoggerVerbosity)verbosity			// Logs a preset format based on the vspecified verbosity, and variables for the format.
 			  formatArgs:(NSArray *)args;
-
-
 
 + (NSString *)bundleName;										// Default is CFBundleName
 + (void)setBundleName:(NSString *)bundleName;
