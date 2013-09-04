@@ -81,7 +81,7 @@
 	UALog(@"  [UALogger shouldLogInDebug]: %@", NSStringFromBool([UALogger shouldLogInDebug]));
 	UALog(@"  [UALogger shouldLogInProduction]: %@", NSStringFromBool([UALogger shouldLogInProduction]));
 	UALog(@"  [UALogger userDefaultsKey]: %@", [UALogger userDefaultsKey]);
-	UALog(@"  [[NSUserDefaults standardUserDefaults] boolForKey:%@]: %@", [UALogger userDefaultsKey], NSStringFromBool([[NSUserDefaults standardUserDefaults] boolForKey:[UALogger userDefaultsKey]]));
+	UALog(@"  [[NSUserDefaults standardUserDefaults] boolForKey:%@]: %@", [UALogger userDefaultsKey], NSStringFromBool([UALogger userDefaultsOverride]));
 	UALog(@"\n");
 	UALog(@"These values as shown mean that logging to the console %@ currently enabled.", ([UALogger loggingEnabled] ? @"is" : @"is not"));
 	
@@ -113,13 +113,14 @@
 	
 	// Set this so the switch will be the only determining factor on whether to log or not.
 	[UALogger setShouldLogInDebug:NO];
+	
 	UISwitch *switchy = [[UISwitch alloc] initWithFrame:CGRectZero];
 	[switchy sizeToFit];
 	[switchy setFrame:CGRectMake(CGRectGetMaxX(self.textView.frame) - CGRectGetWidth(switchy.bounds),
 								 CGRectGetMaxY(self.textView.frame) + 10,
 								 CGRectGetWidth(switchy.bounds),
 								 CGRectGetHeight(switchy.bounds))];
-	BOOL shouldLog = [[NSUserDefaults standardUserDefaults] boolForKey:[UALogger userDefaultsKey]];
+	BOOL shouldLog = [UALogger userDefaultsOverride];
 	[switchy setOn:shouldLog];
 	[switchy addTarget:self action:@selector(switchToggled:) forControlEvents:UIControlEventValueChanged];
 	[self.view addSubview:switchy];
@@ -163,9 +164,10 @@
 }
 
 
-- (void)switchToggled:(id)sender {
+- (void)switchToggled:(UISwitch *)sender {
 	[[NSUserDefaults standardUserDefaults] setBool:[sender isOn]
 											forKey:[UALogger userDefaultsKey]];
+	[[NSUserDefaults standardUserDefaults] synchronize];
 	UALog(@"Switch Toggled. Logging Enabled? %@", NSStringFromBool([UALogger loggingEnabled]));
 }
 
