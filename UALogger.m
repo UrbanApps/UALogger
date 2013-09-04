@@ -11,13 +11,14 @@
 
 
 // We use static class vars because UALogger only has class methods
-static BOOL		UA__shouldLogInProduction = NO;
-static BOOL		UA__shouldLogInDebug	  = YES;
-static NSString *UA__verbosityFormatPlain = nil;
-static NSString *UA__verbosityFormatBasic = nil;
-static NSString *UA__verbosityFormatFull = nil;
-static NSString *UA__bundleName = nil;
-static NSString *UA__userDefaultsKey = nil;
+static BOOL		UA__shouldLogInProduction	= NO;
+static BOOL		UA__shouldLogInDebug		= YES;
+static BOOL		UA__userDefaultsOverride	= NO;
+static NSString *UA__verbosityFormatPlain	= nil;
+static NSString *UA__verbosityFormatBasic	= nil;
+static NSString *UA__verbosityFormatFull	= nil;
+static NSString *UA__bundleName				= nil;
+static NSString *UA__userDefaultsKey		= nil;
 
 
 @implementation UALogger
@@ -28,6 +29,7 @@ static NSString *UA__userDefaultsKey = nil;
 + (void)initialize {
 	[super initialize];
 	[self setupDefaultFormats];
+	[self observeUserDefaultsKey];
 }
 
 + (void)setupDefaultFormats {
@@ -91,6 +93,15 @@ static NSString *UA__userDefaultsKey = nil;
 	UA__shouldLogInDebug = shouldLogInDebug;
 }
 
++ (BOOL)userDefaultsOverride {
+	return UA__userDefaultsOverride;
+}
+
++ (void)setUserDefaultsOverride:(BOOL)userDefaultsOverride {
+	UA__userDefaultsOverride = userDefaultsOverride;
+}
+
+
 + (void)setFormat:(NSString *)format forVerbosity:(UALoggerVerbosity)verbosity {
 	switch (verbosity) {
 		case UALoggerVerbosityNone: return;
@@ -118,9 +129,9 @@ static NSString *UA__userDefaultsKey = nil;
 
 + (BOOL)loggingEnabled {
 	// True if...
-	return (![UALogger isProduction] && [UALogger shouldLogInDebug]) ||					// Debug and logging is enabled in debug OR
-		   ([UALogger isProduction] && [UALogger shouldLogInProduction]) ||				// Production and logging is enabled in production OR
-		   ([[NSUserDefaults standardUserDefaults] boolForKey:[self userDefaultsKey]]);	// the User Defaults override is set.
+	return (![UALogger isProduction] && [UALogger shouldLogInDebug]) ||			// Debug and logging is enabled in debug OR
+		   ([UALogger isProduction] && [UALogger shouldLogInProduction]) ||		// Production and logging is enabled in production OR
+		   ([self userDefaultsOverride]);										// the User Defaults override is set.
 }
 
 + (void)logWithVerbosity:(UALoggerVerbosity)verbosity formatArgs:(NSArray *)args {
@@ -159,6 +170,40 @@ static NSString *UA__userDefaultsKey = nil;
 
 }
 
+#pragma mark - User Defaults / NSNotificationCenter
+
++ (void)observeUserDefaultsKey {
+	// Get notifications when the user defaults changes.
+	// This allows us to cache the [+ userDefaultsKey] bool value so [+ loggingEnabled] will be faster
+	[[NSNotificationCenter defaultCenter] addObserver:[self class]
+											 selector:@selector(defaultsDidChange:)
+												 name:NSUserDefaultsDidChangeNotification
+											   object:nil];
+	
+	// But we also need to set it initially to the value stored on disk
+	BOOL override = [[NSUserDefaults standardUserDefaults] boolForKey:[self userDefaultsKey]];
+	[self setUserDefaultsOverride:override];
+}
+
++ (void)defaultsDidChange:(NSNotification *)notification {
+	NSUserDefaults *defaults = [notification object];
+	BOOL override = [defaults boolForKey:[self userDefaultsKey]];
+	[self setUserDefaultsOverride:override];
+}
+
+
++ (NSString *)userDefaultsKey {
+	if (!UA__userDefaultsKey)
+		UA__userDefaultsKey = UALogger_LoggingEnabled;
+	
+	
+	return UA__userDefaultsKey;
+}
+
++ (void)setUserDefaultsKey:(NSString *)userDefaultsKey {
+	UA__userDefaultsKey = userDefaultsKey;
+}
+
 
 #pragma mark - Application Log Collection
 
@@ -173,17 +218,6 @@ static NSString *UA__userDefaultsKey = nil;
 	UA__bundleName = bundleName;
 }
 
-
-+ (NSString *)userDefaultsKey {
-	if (!UA__userDefaultsKey)
-		UA__userDefaultsKey = UALogger_LoggingEnabled;
-	
-	return UA__userDefaultsKey;
-}
-
-+ (void)setUserDefaultsKey:(NSString *)userDefaultsKey {
-	UA__userDefaultsKey = userDefaultsKey;
-}
 
 
 + (NSArray *)getConsoleLogEntriesForBundleName:(NSString *)bundleName {
