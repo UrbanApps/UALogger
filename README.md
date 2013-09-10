@@ -46,7 +46,7 @@ Then, simply place this line in your `prefix.pch` file to access the logger from
 
 ## Usage
 
-##### Macros
+#### Macros
 
 `UALogBasic` logs just like `NSLog`, but also logs the file name and line number.
 
@@ -188,13 +188,6 @@ Remember that it only finds entries that were written to the console log, so if 
 Check out the example project to see how to use UALogger, how to setup a toggle switch to turn on/off logging in the wild, and how to attach the application log to an email.
 
 
-## What's With the Lumberjack?
-Screenshots are cool. Screenshots of log consoles are not cool. Pictures of lumberjacks are cool.
-
-
-## What Does UA stand for?
-[Urban Apps](http://urbanapps.com). We make neat stuff. Check us out.
-
 ## What's Planned?
 
 There are some ideas we have for future versions of UALogger. Feel free to fork/implement if you would like to expedite the process.
@@ -206,6 +199,20 @@ There are some ideas we have for future versions of UALogger. Feel free to fork/
 
 ## Bugs / Pull Requests
 Let us know if you see ways to improve `UALogger` or see something wrong with it. We are happy to pull in pull requests that have clean code, and have features that are useful for most people.
+
+## What's With the Lumberjack?
+Screenshots are cool. Screenshots of log consoles are not cool. Pictures of lumberjacks are cool.
+
+
+## What Does UA stand for?
+[Urban Apps](http://urbanapps.com). We make neat stuff. Check us out.
+
+
+## Open-Source Urban Apps Projects
+
+- [UAModalPanel](https://github.com/coneybeare/UAModalPanel) - An animated modal panel alternative for iOS
+- [UAAppReviewManager](https://github.com/coneybeare/UAAppReviewManager) - An app review prompting tool for iOS and Mac App Store apps.
+
 
 ## Feeling Generous?
 
