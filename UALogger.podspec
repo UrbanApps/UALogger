@@ -9,5 +9,5 @@ Pod::Spec.new do |s|
   s.license      = 'MIT'
   s.author       = { "Matt Coneybeare" => "coneybeare@urbanapps.com" }
   s.source       = { :git => "https://github.com/UrbanApps/UALogger.git", :tag => s.version.to_s }
-  s.source_files  = 'UALogger.h', 'UALogger.m'
+  s.source_files  = 'UALogger.h,m'
 end
