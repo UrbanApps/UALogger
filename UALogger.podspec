@@ -12,5 +12,5 @@ Pod::Spec.new do |s|
   s.osx.deployment_target = '10.7'
   s.requires_arc = true
   s.source       = { :git => "https://github.com/UrbanApps/UALogger.git", :tag => s.version.to_s }
-  s.source_files  = 'UALogger.h,m'
+  s.source_files  = "UALogger.{h,m}"
 end
