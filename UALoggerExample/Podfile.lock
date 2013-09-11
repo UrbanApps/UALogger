@@ -1,14 +1,10 @@
 PODS:
-  - UALogger (0.1)
+  - UALogger (0.2.3)
 
 DEPENDENCIES:
-  - UALogger (from `../`)
-
-EXTERNAL SOURCES:
-  UALogger:
-    :path: ../
+  - UALogger (~> 0.2.3)
 
 SPEC CHECKSUMS:
-  UALogger: 9afbbfcb5eb0b47c5d421936c3f1fc4fc19548e4
+  UALogger: 52a9764659f9cfd1446bb2dff050fb8cbba5f895
 
-COCOAPODS: 0.23.0
+COCOAPODS: 0.24.0
