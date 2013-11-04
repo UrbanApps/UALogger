@@ -31,6 +31,10 @@ The console log that `NSLog` writes to can be read by any app, or anyone who kno
 
 UALogger lets you get all of the logs written by your app to the system log. In our flagship app [Ambiance](http://ambianceapp.com), we use this to help debug tough customer issues. If a customer contacts us with an issue that we can't figure out, we ask them to turn on logging for Ambiance via a switch in the App settings, try to reproduce the problem, then send us the log via an in-app button.
 
+##### Logging Severity Levels
+
+UALogger allows you to use severity levels when logging such that only the important logs get through. This is useful for logging sever errors and critical messages in production.
+
 ## Installation
 
 Installation is made simple with [Cocoapods](http://cocoapods.org/). If you want to do it the old fashioned way, just add `UALogger.h` and `UALogger.m` to your project.
@@ -159,6 +163,51 @@ Setting the logger to use the same key means that when the feature is on, loggin
 `[+ loggingEnabled]` is the method UALogger uses to determine whether or not it should log a line. It uses the above algorithm and methods to return a simple `BOOL`.
 
     BOOL loggingEnabled = [UALogger loggingEnabled];
+
+
+#### Using Log Severity Levels
+
+UALogger can also be setup to work with log severity levels. Each of the three logging macros (`UALogPlain`, `UALogBasic`, and `UALogFull`) have a variation that lets you pass in a `UALoggerSeverity`:
+
+ - `UASLogPlain`
+ - `UASLogBasic`
+ - `UASLogFull`
+ - `UASLog` // Defaults to UASLogBasic
+
+The `S` stands for severity, and is the first argument in those functions. UALogger recognizes 5 severities:
+
+ - `UALoggerSeverityDebug` // Lowest log level
+ - `UALoggerSeverityInfo`
+ - `UALoggerSeverityWarn`
+ - `UALoggerSeverityError`
+ - `UALoggerSeverityFatal` // Highest Log Level
+
+
+To use the severity levels, you **MUST** set a minimumSeverity for UALogger to use:
+
+    [UALogger setMinimumSeverity:UALoggerSeverityWarn];
+    
+By default, the severity is `UALoggerSeverityUnset` and thus, not used for determining when to log. When unset, the `[UALogger loggingEnabled]` method is used. Once you set the `minimumSeverity` to something else however, **ONLY** the verbosity will be used to determine when to log.
+
+Example:
+
+	[UALogger setMinimumSeverity:UALoggerSeverityWarn];
+    UASLog(UALoggerSeverityDebug,	@" - Logged with severity => UALoggerSeverityDebug");
+	UASLog(UALoggerSeverityInfo,	@" - Logged with severity => UALoggerSeverityInfo");
+	UASLog(UALoggerSeverityWarn,	@" - Logged with severity => UALoggerSeverityWarn");
+	UASLog(UALoggerSeverityError,	@" - Logged with severity => UALoggerSeverityError");
+	UASLog(UALoggerSeverityFatal,	@" - Logged with severity => UALoggerSeverityFatal");
+	UASLog(UALoggerSeverityFatal,	@" - Only 3 of the above lines are logged because they meet or exceed the minimumSeverity (UALoggerSeverityWarn)");
+
+After setting the `minimumSeverity`, any calls made to the non-`S` functions will not log unless you unset it.
+
+	[UALogger setMinimumSeverity:UALoggerSeverityDebug];
+    UALog(@"This will not log.");
+    UASLog(UALoggerSeverityDebug, @"This will log.");
+    
+    [UALogger setMinimumSeverity:UALoggerSeverityUnset];
+    UALog(@"This will log.");
+    UASLog(UALoggerSeverityDebug, @"This will log, and the severity ignored");
 
 
 #### Recent Console Log Collecting

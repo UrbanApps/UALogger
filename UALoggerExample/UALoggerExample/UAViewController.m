@@ -20,7 +20,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	
 	UALog(@"\n");
 	UALogPlain(@"UALogPlain logs to the console just like NSLog.");
 	UALogBasic(@"UALogBasic logs as well, but also logs the file name and line number.");
@@ -86,6 +85,85 @@
 	UALog(@"These values as shown mean that logging to the console %@ currently enabled.", ([UALogger loggingEnabled] ? @"is" : @"is not"));
 	
 	UALog(@"\n");
+	UALog(@"UALogger can also handle log severity levels.");
+	UALog(@"Each of the three logging macros (UALogPlain, UALogBasic, and UALogFull) have a variation");
+	UALog(@"That lets you pass in a UALoggerSeverity:");
+	UALog(@"  UASLogPlain");
+	UALog(@"  UASLogBasic");
+	UALog(@"  UASLogFull");
+	UALog(@"The \"S\" stands for severity, and is the first argument in those functions.");
+	UALog(@"\n");
+	UALog(@"To use the severity levels, you MUST set a minimum severity for UALogger to use");
+	UALog(@"By default, the severity is UALoggerSeverityUnset and thus, not used for determining when to log");
+	UALog(@"Once you set it to something else however, ONLY the verbosity will be used to determine when to log.");
+	UALog(@"\n");
+	UALog(@"Here is an example:");
+	UALog(@"\n");
+	UALogPlain(@"[UALogger setMinimumSeverity:UALoggerSeverityDebug];");
+	[UALogger setMinimumSeverity:UALoggerSeverityDebug];
+	UASLogPlain(UALoggerSeverityDebug,	@" - Logged with severity => UALoggerSeverityDebug");
+	UASLogPlain(UALoggerSeverityInfo,	@" - Logged with severity => UALoggerSeverityInfo");
+	UASLogPlain(UALoggerSeverityWarn,	@" - Logged with severity => UALoggerSeverityWarn");
+	UASLogPlain(UALoggerSeverityError,	@" - Logged with severity => UALoggerSeverityError");
+	UASLogPlain(UALoggerSeverityFatal,	@" - Logged with severity => UALoggerSeverityFatal");
+	UASLogPlain(UALoggerSeverityFatal,	@" - All 5 of these lines are logged because they meet the minimum severity (UALoggerSeverityDebug)");
+	
+	UASLogPlain(UALoggerSeverityDebug,	@"[UALogger setMinimumSeverity:UALoggerSeverityInfo];");
+	[UALogger setMinimumSeverity:UALoggerSeverityInfo];
+	UASLogPlain(UALoggerSeverityDebug,	@" - Logged with severity => UALoggerSeverityDebug");
+	UASLogPlain(UALoggerSeverityInfo,	@" - Logged with severity => UALoggerSeverityInfo");
+	UASLogPlain(UALoggerSeverityWarn,	@" - Logged with severity => UALoggerSeverityWarn");
+	UASLogPlain(UALoggerSeverityError,	@" - Logged with severity => UALoggerSeverityError");
+	UASLogPlain(UALoggerSeverityFatal,	@" - Logged with severity => UALoggerSeverityFatal");
+	UASLogPlain(UALoggerSeverityFatal,	@" - The debug log does not show because it does not meet the minimum severity (UALoggerSeverityInfo)");
+
+	UASLogPlain(UALoggerSeverityInfo, @"[UALogger setMinimumSeverity:UALoggerSeverityWarn];");
+	[UALogger setMinimumSeverity:UALoggerSeverityWarn];
+	UASLogPlain(UALoggerSeverityDebug,	@" - Logged with severity => UALoggerSeverityDebug");
+	UASLogPlain(UALoggerSeverityInfo,	@" - Logged with severity => UALoggerSeverityInfo");
+	UASLogPlain(UALoggerSeverityWarn,	@" - Logged with severity => UALoggerSeverityWarn");
+	UASLogPlain(UALoggerSeverityError,	@" - Logged with severity => UALoggerSeverityError");
+	UASLogPlain(UALoggerSeverityFatal,	@" - Logged with severity => UALoggerSeverityFatal");
+	UASLogPlain(UALoggerSeverityFatal, @" - 2 logs do not show because they do not meet the minimum severity (UALoggerSeverityWarn)");
+	
+	UASLogPlain(UALoggerSeverityWarn, @"[UALogger setMinimumSeverity:UALoggerSeverityError];");
+	[UALogger setMinimumSeverity:UALoggerSeverityError];
+	UASLogPlain(UALoggerSeverityDebug,	@" - Logged with severity => UALoggerSeverityDebug");
+	UASLogPlain(UALoggerSeverityInfo,	@" - Logged with severity => UALoggerSeverityInfo");
+	UASLogPlain(UALoggerSeverityWarn,	@" - Logged with severity => UALoggerSeverityWarn");
+	UASLogPlain(UALoggerSeverityError,	@" - Logged with severity => UALoggerSeverityError");
+	UASLogPlain(UALoggerSeverityFatal,	@" - Logged with severity => UALoggerSeverityFatal");
+	UASLogPlain(UALoggerSeverityFatal, @" - 3 logs do not show because they do not meet the minimum severity (UALoggerSeverityError)");
+	
+	UASLogPlain(UALoggerSeverityError, @"[UALogger setMinimumSeverity:UALoggerSeverityFatal];");
+	[UALogger setMinimumSeverity:UALoggerSeverityFatal];
+	UASLogPlain(UALoggerSeverityDebug,	@" - Logged with severity => UALoggerSeverityDebug");
+	UASLogPlain(UALoggerSeverityInfo,	@" - Logged with severity => UALoggerSeverityInfo");
+	UASLogPlain(UALoggerSeverityWarn,	@" - Logged with severity => UALoggerSeverityWarn");
+	UASLogPlain(UALoggerSeverityError,	@" - Logged with severity => UALoggerSeverityError");
+	UASLogPlain(UALoggerSeverityFatal,	@" - Logged with severity => UALoggerSeverityFatal");
+	UASLogPlain(UALoggerSeverityFatal, @"4 logs do not show because they do not meet the minimum severity (UALoggerSeverityFatal)");
+	
+	UASLogPlain(UALoggerSeverityFatal, @"\n");
+	UASLogPlain(UALoggerSeverityFatal, @"Remember, if you don;t pass a severity and the default of UALoggerSeverityUnset is used,");
+	UASLogPlain(UALoggerSeverityFatal, @"severity will not factor in on the decision to log");
+	UASLogPlain(UALoggerSeverityFatal, @"\n");
+	UASLogPlain(UALoggerSeverityFatal, @"After setting a minimumSeverity, calling UALog or any other non-severity based logging method");
+	UASLogPlain(UALoggerSeverityFatal, @"will result in nothing being logged.");
+	UASLogPlain(UALoggerSeverityFatal, @"\n");
+	UASLogPlain(UALoggerSeverityFatal, @"Now, we can unset the minimumSeverity to go back to the old functions:");
+	UASLogPlain(UALoggerSeverityFatal, @"[UALogger setMinimumSeverity:UALoggerSeverityUnset];");
+	[UALogger setMinimumSeverity:UALoggerSeverityUnset];
+	
+	UASLogPlain(UALoggerSeverityDebug, @"UASLogPlain logs to the console just like UALogPlain but prepends the severity level.");
+	UASLogBasic(UALoggerSeverityInfo, @"UASLogBasic logs to the console just like UALogBasic but prepends the severity level");
+	UASLogFull(UALoggerSeverityWarn, @"UASLogFull logs  to the console just like UALogFull but prepends the severity level");
+	UASLog(UALoggerSeverityError, @"UASLog is a short synonym for UASLogPlain.");
+	UASLog(UALoggerSeverityFatal, @" All 5 of these lines are logged because the severity is not a factor anymore");
+	UALog(@"and the default logging decision making function will be used");
+		
+	
+	UALog(@"\n");
 	UALog(@"One of the more useful features of UALogger is to grab the recent log entries from the console.");
 	UALog(@"To do this, simply call:");
 	UALog(@"  [UALogger applicationLog];");
@@ -145,8 +223,7 @@
 	[self.view addSubview:button];
 	[button setEnabled:NO];
 	
-	
-	
+		
 	[UALogger getApplicationLog:^(NSArray *logs){
 		dispatch_async(dispatch_get_main_queue(), ^{
 			NSString *logText = [logs componentsJoinedByString:@"\n"];

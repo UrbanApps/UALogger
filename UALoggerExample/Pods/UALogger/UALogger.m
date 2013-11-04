@@ -11,14 +11,15 @@
 
 
 // We use static class vars because UALogger only has class methods
-static BOOL		UA__shouldLogInProduction	= NO;
-static BOOL		UA__shouldLogInDebug		= YES;
-static BOOL		UA__userDefaultsOverride	= NO;
-static NSString *UA__verbosityFormatPlain	= nil;
-static NSString *UA__verbosityFormatBasic	= nil;
-static NSString *UA__verbosityFormatFull	= nil;
-static NSString *UA__bundleName				= nil;
-static NSString *UA__userDefaultsKey		= nil;
+static BOOL				UA__shouldLogInProduction	= NO;
+static BOOL				UA__shouldLogInDebug		= YES;
+static BOOL				UA__userDefaultsOverride	= NO;
+static NSString			*UA__verbosityFormatPlain	= nil;
+static NSString			*UA__verbosityFormatBasic	= nil;
+static NSString			*UA__verbosityFormatFull	= nil;
+static NSString			*UA__bundleName				= nil;
+static NSString			*UA__userDefaultsKey		= nil;
+static UALoggerSeverity	UA__minimumSeverity			= UALoggerSeverityUnset;
 
 
 @implementation UALogger
@@ -76,6 +77,33 @@ static NSString *UA__userDefaultsKey		= nil;
 + (void)resetDefaultLogFormats {
 	[self setupDefaultFormats];
 }
+	
++ (void)setMinimumSeverity:(UALoggerSeverity)severity {
+	UA__minimumSeverity = severity;
+}
+
++ (UALoggerSeverity)minimumSeverity {
+	return UA__minimumSeverity;
+}
+
++ (NSString *)labelForSeverity:(UALoggerSeverity)severity {
+	switch (severity) {
+		case UALoggerSeverityDebug: return @"DEBUG";
+		case UALoggerSeverityInfo:  return @"INFO";
+		case UALoggerSeverityWarn:	return @"WARNING";
+		case UALoggerSeverityError:	return @"ERROR";
+		case UALoggerSeverityFatal:	return @"FATAL";
+		default: return @"";
+	}
+}
+	
++ (BOOL)usingSeverityFiltering {
+	return UALoggerSeverityUnset != [UALogger minimumSeverity];
+}
+	
++ (BOOL)meetsMinimumSeverity:(UALoggerSeverity)severity {
+	return severity >= [UALogger minimumSeverity];
+}
 
 + (BOOL)shouldLogInProduction {
 	return UA__shouldLogInProduction;
@@ -129,18 +157,32 @@ static NSString *UA__userDefaultsKey		= nil;
 
 + (BOOL)loggingEnabled {
 	// True if...
-	return (![UALogger isProduction] && [UALogger shouldLogInDebug]) ||			// Debug and logging is enabled in debug OR
+	return ([UALogger usingSeverityFiltering]) ||								// Using severity filtering OR							// severity filtering is done in the logWithVerbosity:severity:formatArgs method
+		   (![UALogger isProduction] && [UALogger shouldLogInDebug]) ||			// Debug and logging is enabled in debug OR
 		   ([UALogger isProduction] && [UALogger shouldLogInProduction]) ||		// Production and logging is enabled in production OR
 		   ([self userDefaultsOverride]);										// the User Defaults override is set.
 }
 
-+ (void)logWithVerbosity:(UALoggerVerbosity)verbosity formatArgs:(NSArray *)args {
+
++ (void)logWithVerbosity:(UALoggerVerbosity)verbosity severity:(UALoggerSeverity)severity formatArgs:(NSArray *)args {
 	
+	// Bail if verbosity has been set to None
 	if (UALoggerVerbosityNone == verbosity)
 		return;
 	
-
-	[UALogger log:[self formatForVerbosity:verbosity],
+	NSString *format = [self formatForVerbosity:verbosity];
+	
+	if ([UALogger usingSeverityFiltering]) {
+		
+		// Bail if it doesn't meet the minimum severity
+		if (![UALogger meetsMinimumSeverity:severity])
+			return;
+		
+		NSString *label = [UALogger labelForSeverity:severity];
+		format = [NSString stringWithFormat:@"[%@] %@", label, format];
+	}
+		
+	[UALogger log:format,
 				  [args count] >= 1 ? [args objectAtIndex:0] : nil,
 				  [args count] >= 2 ? [args objectAtIndex:1] : nil,
 				  [args count] >= 3 ? [args objectAtIndex:2] : nil,
@@ -151,6 +193,7 @@ static NSString *UA__userDefaultsKey		= nil;
 				  [args count] >= 8 ? [args objectAtIndex:7] : nil,
 				  [args count] >= 9 ? [args objectAtIndex:8] : nil
 	 ];
+	}
 }
 
 + (void)log:(NSString *)format, ... {

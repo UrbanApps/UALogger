@@ -1,2 +1,2 @@
 platform :ios, '5.0'
-pod 'UALogger', '~> 0.2.3'
+pod 'UALogger', :path => '..'
