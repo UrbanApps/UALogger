@@ -241,10 +241,10 @@ Check out the example project to see how to use UALogger, how to setup a toggle 
 
 There are some ideas we have for future versions of UALogger. Feel free to fork/implement if you would like to expedite the process.
 
-- Add some sort of optional log priority system like `error`, `critical`, `warning` etc… We could then set a threshold to log and everything that meets or exceeds that threshold in severity would be logged. This allows the log printing to be data driven. Something like `UALog(UALoggerSeverityCritical, @"Error: %@", [error localizedDescription]`;
--  Investigate whether or not it is worth it to [log messages using the ASL API](https://developer.apple.com/library/mac/documentation/MacOSX/Conceptual/BPSystemStartup/Chapters/LoggingErrorsAndWarnings.html#//apple_ref/doc/uid/10000172i-SW8-SW6). 
--  Implement [ASL logging](https://developer.apple.com/library/mac/documentation/MacOSX/Conceptual/BPSystemStartup/Chapters/LoggingErrorsAndWarnings.html#//apple_ref/doc/uid/10000172i-SW8-SW6) if there are clear benefits.
--  [Your idea](https://github.com/coneybeare/UALogger/issues).
+- [Implemented](https://github.com/UrbanApps/UALogger#using-log-severity-levels) <del>Add some sort of optional log priority system like `error`, `critical`, `warning` etc… We could then set a threshold to log and everything that meets or exceeds that threshold in severity would be logged. This allows the log printing to be data driven. Something like `UALog(UALoggerSeverityCritical, @"Error: %@", [error localizedDescription]`</del>
+- Investigate whether or not it is worth it to [log messages using the ASL API](https://developer.apple.com/library/mac/documentation/MacOSX/Conceptual/BPSystemStartup/Chapters/LoggingErrorsAndWarnings.html#//apple_ref/doc/uid/10000172i-SW8-SW6). 
+- Implement [ASL logging](https://developer.apple.com/library/mac/documentation/MacOSX/Conceptual/BPSystemStartup/Chapters/LoggingErrorsAndWarnings.html#//apple_ref/doc/uid/10000172i-SW8-SW6) if there are clear benefits.
+- [Your idea](https://github.com/coneybeare/UALogger/issues).
 
 ## Bugs / Pull Requests
 Let us know if you see ways to improve `UALogger` or see something wrong with it. We are happy to pull in pull requests that have clean code, and have features that are useful for most people.
