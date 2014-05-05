@@ -262,7 +262,8 @@ Screenshots are cool. Screenshots of log consoles are not cool. Pictures of lumb
 - [UAModalPanel](https://github.com/coneybeare/UAModalPanel) - An animated modal panel alternative for iOS
 - [UAAppReviewManager](https://github.com/coneybeare/UAAppReviewManager) - An app review prompting tool for iOS and Mac App Store apps.
 - [UAObfuscatedString](https://github.com/urbanapps/UAObfuscatedString) - A simple NSString category to hide sensitive strings
-
+- [Urban](https://github.com/UrbanApps/Urban) - An Xcode color scheme that uses a soft dark background, with subtle blue, orange and yellow colors
+ 
 ## Feeling Generous?
 
 If you want to thank us for open-sourcing UALogger, you can [buy one of our apps](http://itunes.com/apps/urbanapps?at=11l7j9&ct=github) or even donate something small.
