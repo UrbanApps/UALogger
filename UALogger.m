@@ -274,7 +274,12 @@ static UALoggerSeverity	UA__minimumSeverity			= UALoggerSeverityUnset;
 	asl_set_query(q, ASL_KEY_SENDER, [queryTerm UTF8String], ASL_QUERY_OP_EQUAL);
 	
 	aslresponse r = asl_search(NULL, q);
-	while (NULL != (m = aslresponse_next(r))) {
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+	while (NULL != (m = (asl_next != NULL) ? asl_next(r) : aslresponse_next(r))) {
+#pragma clang diagnostic pop
+        
 		NSMutableDictionary *tmpDict = [NSMutableDictionary dictionary];
 		
 		for (i = 0; (NULL != (key = asl_key(m, i))); i++) {
@@ -291,8 +296,15 @@ static UALoggerSeverity	UA__minimumSeverity			= UALoggerSeverityUnset;
 		[logs addObject:message];
 		
 	}
-	aslresponse_free(r);
-	
+    
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+    if (asl_free != NULL)
+        asl_free(r);
+    else
+        aslresponse_free(r);
+#pragma clang diagnostic pop
+    
 	return logs;
 }
 	
