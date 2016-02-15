@@ -37,7 +37,7 @@ UALogger allows you to use severity levels when logging such that only the impor
 
 ## Installation
 
-Installation is made simple with [Cocoapods](http://cocoapods.org/). If you want to do it the old fashioned way, just add `UALogger.h` and `UALogger.m` to your project.
+Installation is made simple with [CocoaPods](http://cocoapods.org/). If you want to do it the old fashioned way, just add `UALogger.h` and `UALogger.m` to your project.
 
     pod 'UALogger', '~> 0.3'
 
